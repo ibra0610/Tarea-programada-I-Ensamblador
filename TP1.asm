@@ -2,7 +2,7 @@
 ;Lenguaje ensamblador Grupo 01
 
 .model small 
-.stack 521 
+.stack 512 
 
 .data 
 
@@ -13,8 +13,12 @@
     scancode3 db 46 
     scancode4 db 32 
     scancode5 db 18 
-    peticion db "Ingrese el primer numero hexadecimal: " 
-    peticion2 db "Ingrese el segundo numero hexadecimal: "
+    peticionAnd db "Selecciono AND.NumHexadecimal: " 
+    peticionOr db "Usted selecciono OR. Ingrese el primer numero hexadecimal: " 
+    peticionNot db "Usted selecciono NOT. Ingrese el primer numero hexadecimal: "  
+    peticionXOR db "Usted selecciono XOR. Ingrese el primer numero hexadecimal: "
+    salir db "Usted selecciono Salir."
+    peticion2 db "Ingrese el segundo numero hexadecimal: " , "$"
     resultado db "El resultado de la operacion es: " 
     fila db ? 
     columna db ? 
@@ -62,8 +66,24 @@ lea_teclado PROC    NEAR
     mov ah, 00h 
     int 16h 
     RET  
-lea_teclado ENDP
+lea_teclado ENDP 
 
+obtenga_numero_test PROC    NEAR 
+    
+    call borre_pantalla
+    ;call coloque_cursor
+
+    mov ah, 09h 
+    lea dx, peticion2 
+    int 21h 
+    
+    mov ah,01h 
+    int 21h 
+    sub al, 30h 
+    mov eleccion, al 
+    
+
+obtenga_numero_test ENDP  
 
 Begin: 
 
@@ -121,14 +141,42 @@ lectura:
         
 
 op_and:
+    mov ax, @data 
+    mov ds, ax 
+    mov ax, 0B800h 
+    mov es, ax 
+  
+    mov ah, 0 
+    mov al, 3 
+    int 10h 
+    
+    call borre_pantalla
 
-    mov ah, 0Ah 
-    mov al, 'A' 
-    mov bh,0 
-    mov cx,1 
-    int 10h  
-    call imprima 
-    call lectura
+    mov ah, 07 
+    mov cx, 22 
+    mov si, offset peticionAnd 
+    mov di, 1000 
+    cld 
+    
+imprimaAnd: 
+    lodsb 
+    stosw 
+    loop imprimaAnd 
+    
+    mov fila, 10 
+    mov columna, 39 
+    ;call coloque_cursor 
+ 
+    mov ax, @data 
+    mov es, ax 
+    
+    mov cx, 1000 
+    mov di, offset peticionAnd 
+    
+    call obtenga_numero_test
+    
+Ciclo: 
+    call Begin
 
 op_or: 
 
