@@ -13,7 +13,7 @@
     scancode3 db 46 
     scancode4 db 32 
     scancode5 db 18 
-    peticionAnd db "Selecciono AND.NumHexadecimal: " 
+    peticionAnd db "Usted selecciono AND. Ingrese el primer numero hexadecimal: " 
     peticionOr db "Usted selecciono OR. Ingrese el primer numero hexadecimal: " 
     peticionNot db "Usted selecciono NOT. Ingrese el primer numero hexadecimal: "  
     peticionXOR db "Usted selecciono XOR. Ingrese el primer numero hexadecimal: "
@@ -99,7 +99,7 @@ Begin:
 call borre_pantalla 
 
     mov ah, 07 
-    mov cx, 22 
+    mov cx, 30 ;Aqui se pone la cantidad de caracteres a mostrar 
     mov si, offset menu 
     mov di, 1620 
     cld 
@@ -110,14 +110,14 @@ imprima:
     stosw 
     loop imprima 
     
-    mov fila, 10 
-    mov columna, 39 
- call coloque_cursor 
+    mov fila, 10 ;Aqui se mueve el cursor de arriba a abajo
+    mov columna, 43 ;Aqui se mueve el cursor a los lados
+    call coloque_cursor 
  
     mov ax, @data 
     mov es, ax 
     
-    mov cx, 1000 
+    mov cx, 5 
     mov di, offset menu 
 
 lectura: 
@@ -153,9 +153,9 @@ op_and:
     call borre_pantalla
 
     mov ah, 07 
-    mov cx, 22 
+    mov cx, 59 ;cantidad de caracteres del texto 
     mov si, offset peticionAnd 
-    mov di, 1000 
+    mov di, 1604 ;mueve el texto en la ventana, lo cambia de posicion 
     cld 
     
 imprimaAnd: 
@@ -164,8 +164,8 @@ imprimaAnd:
     loop imprimaAnd 
     
     mov fila, 10 
-    mov columna, 39 
-    ;call coloque_cursor 
+    mov columna, 64 ;Posicion del cursor con un texto mas largo 
+    call coloque_cursor 
  
     mov ax, @data 
     mov es, ax 
@@ -173,7 +173,7 @@ imprimaAnd:
     mov cx, 1000 
     mov di, offset peticionAnd 
     
-    call obtenga_numero_test
+    call obtenga_caracter
     
 Ciclo: 
     call Begin
