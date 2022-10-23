@@ -8,18 +8,22 @@
 
     menu db "a.AND b.OR c.NOT d.XOR e.Salir"
     eleccion db ?  
+    
     scancode1 db 30 
     scancode2 db 48 
     scancode3 db 46 
     scancode4 db 32 
     scancode5 db 18 
+    
     peticionAnd db "Usted selecciono AND. Ingrese el primer numero hexadecimal: " 
     peticionOr db "Usted selecciono OR. Ingrese el primer numero hexadecimal: " 
     peticionNot db "Usted selecciono NOT. Ingrese el primer numero hexadecimal: "  
     peticionXOR db "Usted selecciono XOR. Ingrese el primer numero hexadecimal: "
     salir db "Usted selecciono Salir."
-    peticion2 db "Ingrese el segundo numero hexadecimal: " , "$"
+    
+    peticion2 db "Ingrese el segundo numero hexadecimal: "
     resultado db "El resultado de la operacion es: " 
+    resultado_operacion db ? 
     fila db ? 
     columna db ? 
     hexa1 db 0 
@@ -80,10 +84,10 @@ obtenga_numero_test PROC    NEAR
     mov ah,01h 
     int 21h 
     sub al, 30h 
-    mov eleccion, al 
+    mov eleccion, al  
     
-
-obtenga_numero_test ENDP  
+obtenga_numero_test ENDP
+    
 
 Begin: 
 
@@ -128,16 +132,16 @@ lectura:
     JE op_and  
     
     cmp ah, scancode2 
-    JE op_or 
+    ;JE op_or 
     
     cmp ah, scancode3 
-    JE op_not 
+    ;JE op_not 
     
     cmp ah, scancode4 
-    JE op_xor
+    ;JE op_xor
     
     cmp ah, scancode5 
-    JE op_salir
+    ;JE op_salir
         
 
 op_and:
@@ -172,7 +176,112 @@ imprimaAnd:
     
     mov cx, 1000 
     mov di, offset peticionAnd 
+
+
+    call obtenga_caracter
+    sub al, 30h 
+    mov hexa1, al 
     
+    mov ax, @data 
+    mov ds, ax 
+    mov ax, 0B800h 
+    mov es, ax 
+  
+    mov ah, 0 
+    mov al, 3 
+    int 10h 
+    
+
+    mov ah, 07 
+    mov cx, 39 ;cantidad de caracteres del texto 
+    mov si, offset peticion2 
+    mov di, 1804 ;mueve el texto en la ventana, lo cambia de posicion 
+    cld 
+    
+ImprimaSegunda: 
+    
+    lodsb 
+    stosw 
+    loop imprimaSegunda 
+    
+    mov fila, 11 
+    mov columna, 64 ;Posicion del cursor con un texto mas largo 
+    call coloque_cursor 
+ 
+    mov ax, @data 
+    mov es, ax 
+    
+    mov cx, 1000 
+    mov di, offset peticion2 
+
+
+    call obtenga_caracter
+    sub al, 30h 
+    mov hexa2, al
+    
+OperacionAnd: 
+
+    mov al, hexa1 
+    AND al, hexa2 
+    mov resultado_operacion, al 
+    
+    mov ax, @data 
+    mov ds, ax 
+    mov ax, 0B800h 
+    mov es, ax 
+  
+    mov ah, 0 
+    mov al, 3 
+    int 10h
+    
+    mov ah, 07 
+    mov cx, 33 ;cantidad de caracteres del texto 
+    mov si, offset resultado 
+    mov di, 1804 ;mueve el texto en la ventana, lo cambia de posicion 
+    cld 
+    
+ImprimaResultado: 
+    
+    lodsb 
+    stosw 
+    loop ImprimaResultado 
+    
+    mov fila, 11 
+    mov columna, 64 ;Posicion del cursor con un texto mas largo 
+    call coloque_cursor 
+ 
+    mov ax, @data 
+    mov es, ax 
+    
+    mov cx, 1000 
+    mov di, offset resultado 
+    
+    mov ax, @data 
+    mov ds, ax 
+    mov ax, 0B800h 
+    mov es, ax 
+    
+    mov ah, 07 
+    mov cx, 1 ;cantidad de caracteres del texto 
+    mov si, offset resultado_operacion 
+    mov di, 1890 ;mueve el texto en la ventana, lo cambia de posicion 
+    cld
+ImprimaNumero: 
+    lodsb 
+    stosw 
+    loop ImprimaNumero 
+    
+    mov fila, 11 
+    mov columna, 64 ;Posicion del cursor con un texto mas largo 
+    call coloque_cursor 
+ 
+    mov ax, @data 
+    mov es, ax 
+    
+    mov cx, 1000 
+    mov di, offset resultado_operacion
+    
+
     call obtenga_caracter
     
 Ciclo: 
