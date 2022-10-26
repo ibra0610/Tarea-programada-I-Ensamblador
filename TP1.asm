@@ -73,19 +73,19 @@ lea_teclado PROC    NEAR ;Este proceso utiliza la funcion 00h de la interrupcion
 lea_teclado ENDP
 
 
-imprima_eleccion_AND PROC  
-    
-    mov ax, @data 
-    mov ds, ax 
+imprima_eleccion_AND PROC  ;Este proceso se utiliza para imprimir en la ventana la eleccion que 
+                            ;realizo el usuario, en este caso imprime una confirmacion diciendo
+    mov ax, @data           ;que el usuario eligio hacer la operacion AND. Al final llama otro proceso para
+    mov ds, ax              ;obtener los operandos. 
     mov ax, 0B800h 
     mov es, ax 
  
     call borre_pantalla   
     
     mov ah, 07 
-    mov cx, 21 ;cantidad de caracteres
-    mov si, offset peticionAnd ;es el texto de la peticion
-    mov di, 700 ;mueve el texto en la ventana, lo cambia de posicion 
+    mov cx, 21                  ;cantidad de caracteres
+    mov si, offset peticionAnd  ;es el texto de la peticion
+    mov di, 700                 ;mueve el texto en la ventana, lo cambia de posicion 
     cld
     
     imprimaElecAnd: 
@@ -94,7 +94,7 @@ imprima_eleccion_AND PROC
     loop imprimaElecAnd 
     
     mov fila, 4 
-    mov columna, 52 ;Posicion del cursor con un texto mas largo 
+    mov columna, 52             ;Posicion del cursor, para que aparezca al final del texto
     call coloque_cursor 
  
     mov ax, @data 
@@ -103,11 +103,14 @@ imprima_eleccion_AND PROC
     mov cx, 1000 
     mov di, offset peticionAnd 
     
-    call obtenga_operandos_AND
+    call obtenga_operandos_AND  ;llama al proceso para obtener los operandos de AND
 
 imprima_eleccion_AND ENDP 
 
-imprima_eleccion_OR PROC  
+imprima_eleccion_OR PROC  ;Este proceso se utiliza para imprimir en la ventana la eleccion que 
+                          ;realizo el usuario, en este caso imprime una confirmacion diciendo
+                          ;que el usuario eligio hacer la operacion OR. Al final llama otro proceso para
+                          ;obtener los operandos. 
     
     mov ax, @data 
     mov ds, ax 
@@ -117,9 +120,9 @@ imprima_eleccion_OR PROC
     call borre_pantalla   
     
     mov ah, 07 
-    mov cx, 20 ;cantidad de caracteres
-    mov si, offset peticionOr ;es el texto de la peticion
-    mov di, 700 ;mueve el texto en la ventana, lo cambia de posicion 
+    mov cx, 20                  ;cantidad de caracteres
+    mov si, offset peticionOr   ;es el texto de la peticion
+    mov di, 700                 ;mueve el texto en la ventana, lo cambia de posicion 
     cld
     
     imprimaElecOr: 
@@ -128,7 +131,7 @@ imprima_eleccion_OR PROC
     loop imprimaElecOr 
     
     mov fila, 4  
-    mov columna, 52 ;Posicion del cursor con un texto mas largo 
+    mov columna, 52             ;Posicion del cursor, para que aparezca al final del texto 
     call coloque_cursor 
  
     mov ax, @data 
@@ -137,11 +140,14 @@ imprima_eleccion_OR PROC
     mov cx, 1000 
     mov di, offset peticionOr 
     
-    call obtenga_operandos_OR
+    call obtenga_operandos_OR   ;llama al proceso para obtener los operandos de OR
 
 imprima_eleccion_OR ENDP 
 
-imprima_eleccion_NOT PROC  
+imprima_eleccion_NOT PROC  ;Este proceso se utiliza para imprimir en la ventana la eleccion que 
+                            ;realizo el usuario, en este caso imprime una confirmacion diciendo
+                            ;que el usuario eligio hacer la operacion NOT. Al final llama otro proceso para
+                            ;obtener los operandos. 
     
     mov ax, @data 
     mov ds, ax 
@@ -151,9 +157,9 @@ imprima_eleccion_NOT PROC
     call borre_pantalla   
     
     mov ah, 07 
-    mov cx, 21 ;cantidad de caracteres
-    mov si, offset peticionNot ;es el texto de la peticion
-    mov di, 700 ;mueve el texto en la ventana, lo cambia de posicion 
+    mov cx, 21                  ;cantidad de caracteres
+    mov si, offset peticionNot  ;es el texto de la peticion
+    mov di, 700                 ;mueve el texto en la ventana, lo cambia de posicion 
     cld
     
     imprimaElecNot: 
@@ -162,7 +168,7 @@ imprima_eleccion_NOT PROC
     loop imprimaElecNot 
     
     mov fila, 4 
-    mov columna, 52 ;Posicion del cursor con un texto mas largo 
+    mov columna, 52             ;Posicion del cursor, para que aparezca al final del texto 
     call coloque_cursor 
  
     mov ax, @data 
@@ -175,7 +181,10 @@ imprima_eleccion_NOT PROC
 
     imprima_eleccion_NOT ENDP 
 
-imprima_eleccion_XOR PROC  
+imprima_eleccion_XOR PROC  ;Este proceso se utiliza para imprimir en la ventana la eleccion que 
+                            ;realizo el usuario, en este caso imprime una confirmacion diciendo
+                            ;que el usuario eligio hacer la operacion XOR. Al final llama otro proceso para
+                            ;obtener los operandos. 
     
     mov ax, @data 
     mov ds, ax 
@@ -185,9 +194,9 @@ imprima_eleccion_XOR PROC
     call borre_pantalla   
     
     mov ah, 07 
-    mov cx, 21 ;cantidad de caracteres
-    mov si, offset peticionXor ;es el texto de la peticion
-    mov di, 700 ;mueve el texto en la ventana, lo cambia de posicion 
+    mov cx, 21                  ;cantidad de caracteres
+    mov si, offset peticionXor  ;es el texto de la peticion
+    mov di, 700                 ;mueve el texto en la ventana, lo cambia de posicion 
     cld
     
     imprimaElecXor: 
@@ -196,7 +205,7 @@ imprima_eleccion_XOR PROC
     loop imprimaElecXor 
     
     mov fila, 4 
-    mov columna, 52 ;Posicion del cursor con un texto mas largo 
+    mov columna, 52             ;Posicion del cursor, para que aparezca al final del texto 
     call coloque_cursor 
  
     mov ax, @data 
@@ -209,7 +218,9 @@ imprima_eleccion_XOR PROC
 
 imprima_eleccion_XOR ENDP 
 
-imprima_eleccion_SALIR PROC  
+imprima_eleccion_SALIR PROC  ;Este proceso se utiliza para imprimir en la ventana la eleccion que 
+                            ;realizo el usuario, en este caso imprime una confirmacion diciendo
+                            ;que el usuario eligio salir del programa. 
     
     mov ax, @data 
     mov ds, ax 
@@ -219,9 +230,9 @@ imprima_eleccion_SALIR PROC
     call borre_pantalla   
     
     mov ah, 07 
-    mov cx, 23 ;cantidad de caracteres
-    mov si, offset salir ;es el texto de la peticion
-    mov di, 700 ;mueve el texto en la ventana, lo cambia de posicion 
+    mov cx, 23              ;cantidad de caracteres
+    mov si, offset salir    ;es el texto de la peticion
+    mov di, 700             ;mueve el texto en la ventana, lo cambia de posicion 
     cld
     
     imprimaElecSalir: 
@@ -230,7 +241,7 @@ imprima_eleccion_SALIR PROC
     loop imprimaElecSalir 
     
     mov fila, 4 
-    mov columna, 52 ;Posicion del cursor con un texto mas largo 
+    mov columna, 52          ;Posicion del cursor, para que aparezca al final del texto 
     call coloque_cursor 
  
     mov ax, @data 
@@ -239,27 +250,26 @@ imprima_eleccion_SALIR PROC
     mov cx, 1000 
     mov di, offset salir 
     
-    ;call obtenga_caracter
     
     .EXIT
 
 imprima_eleccion_SALIR ENDP 
 
 
-obtenga_operandos_AND PROC 
-
+obtenga_operandos_AND PROC ;Este proceso se utiliza para obtener los operandos 
+                            ;necesarios para realizar el AND. Luego se llama al proceso imprima_resultado para que muestre al usuario el resultado de la operacion.
     mov ax, @data 
     mov ds, ax 
     mov ax, 0B800h 
     mov es, ax 
 
     mov ah, 07 
-    mov cx, 38 ;cantidad de caracteres del texto 
+    mov cx, 38              ;cantidad de caracteres del texto 
     mov si, offset peticionHex1 
-    mov di, 1120 ;mueve el texto en la ventana, lo cambia de posicion 
+    mov di, 1120            ;mueve el texto en la ventana, lo cambia de posicion 
     cld 
     
-    imprimaPet1AND: 
+    imprimaPet1AND:         ;Se imprime el texto para pedir el primer numero al usuario
         lodsb 
         stosw 
         loop imprimaPet1AND 
@@ -274,9 +284,10 @@ obtenga_operandos_AND PROC
         mov cx, 1000 
         mov di, offset peticionHex1
         
-        call obtenga_caracter
-        sub al, 30h 
-        mov hexa1, al  
+        call obtenga_caracter       ;Utiliza el proceso obtenga_caracter, este utiliza la int 16h para leer 
+        sub al, 30h                 ; el cogido ASCII de la tecla presionada por el usuario, se le resta 30 para que quede el numero exacto (no un simbolo ascii)
+        mov hexa1, al               ;al final se almacena en hexa1. 
+        
         
     mov ax, @data 
     mov ds, ax 
@@ -284,12 +295,12 @@ obtenga_operandos_AND PROC
     mov es, ax 
 
     mov ah, 07 
-    mov cx, 39 ;cantidad de caracteres del texto 
+    mov cx, 39                  ;cantidad de caracteres del texto 
     mov si, offset peticionHex2 
-    mov di, 1280 ;mueve el texto en la ventana, lo cambia de posicion 
+    mov di, 1280                ;mueve el texto en la ventana, lo cambia de posicion 
     cld
     
-    imprimaPet2AND: 
+    imprimaPet2AND: ;Se imprime el texto para pedir el segundo numero al usuario
         lodsb 
         stosw 
         loop imprimaPet2AND 
@@ -304,39 +315,41 @@ obtenga_operandos_AND PROC
         mov cx, 1000 
         mov di, offset peticionHex2
         
-        call obtenga_caracter
+        call obtenga_caracter   ;Utiliza el proceso obtenga_caracter, este utiliza la int 16h para leer 
+                                ; el cogido ASCII de la tecla presionada por el usuario, se le resta 30 para que quede el numero exacto (no un simbolo ascii)
+                                ;al final se almacena en hexa2
         sub al, 30h 
         mov hexa2, al 
         
-        mov al, hexa1 
+        mov al, hexa1           ;se ejecuta la operacion AND, se almacena en resultado_operacion, al final se le suma 48 para que pueda imprimir el caracter de un numero
         AND al, hexa2 
         mov resultado_operacion, al
         ADD resultado_operacion, 48 ;Para que imprima el caracter ASCII correcto 
         
-        call imprima_Resultado
+        call imprima_Resultado  ;llama a la operacion para que muestre el resultado al usuario
         
 obtenga_operandos_AND ENDP 
 
-obtenga_operandos_OR PROC 
-
+obtenga_operandos_OR PROC   ;Este proceso se utiliza para obtener los operandos necesarios para realizar la operacion OR
+                            ;Luego se llama al proceso imprima_resultado para que muestre al usuario el resultado de la operacion.
     mov ax, @data 
     mov ds, ax 
     mov ax, 0B800h 
     mov es, ax 
 
     mov ah, 07 
-    mov cx, 38 ;cantidad de caracteres del texto 
+    mov cx, 38                      ;cantidad de caracteres del texto 
     mov si, offset peticionHex1 
-    mov di, 1120 ;mueve el texto en la ventana, lo cambia de posicion 
+    mov di, 1120                    ;mueve el texto en la ventana, lo cambia de posicion 
     cld 
     
-    imprimaPet1OR: 
+    imprimaPet1OR:          ;Imprime el mensaje que solicita al usuario ingresar el primer numero
         lodsb 
         stosw 
         loop imprimaPet1OR 
     
         mov fila, 7 
-        mov columna, 38 ;Posicion del cursor con un texto mas largo 
+        mov columna, 38         ;Posicion del cursor
         call coloque_cursor 
  
         mov ax, @data 
@@ -345,8 +358,8 @@ obtenga_operandos_OR PROC
         mov cx, 1000 
         mov di, offset peticionHex1
         
-        call obtenga_caracter
-        sub al, 30h 
+        call obtenga_caracter       ;llama a obtenga_caracter para que lea la tecla ingresada por el usuario, se le resta 30 para que quede un numero
+        sub al, 30h                 ;finalmente se almacena en hexa1
         mov hexa1, al  
         
     mov ax, @data 
@@ -360,7 +373,7 @@ obtenga_operandos_OR PROC
     mov di, 1280 ;mueve el texto en la ventana, lo cambia de posicion 
     cld
     
-    imprimaPet2OR: 
+    imprimaPet2OR:              ;imprime el texto solicitando al usuario ingresar el segundo numero
         lodsb 
         stosw 
         loop imprimaPet2OR 
@@ -375,21 +388,21 @@ obtenga_operandos_OR PROC
         mov cx, 1000 
         mov di, offset peticionHex2
         
-        call obtenga_caracter
-        sub al, 30h 
+        call obtenga_caracter   ;llama a obtenga_caracter para que lea la tecla ingresada por el usuario, se le resta 30 para que quede un numero
+        sub al, 30h             ;finalmente se almacena en hexa2
         mov hexa2, al 
         
-        mov al, hexa1 
+        mov al, hexa1             ;ejecuta la operacion OR y almacena el resultado en resultado_operacion, al final se le suma 48 para que pueda imprimir el caracter de un numero
         OR al, hexa2 
         mov resultado_operacion, al
-        ADD resultado_operacion, 48 ;Para que imprima el caracter ASCII correcto 
+        ADD resultado_operacion, 48  
         
-        call imprima_Resultado
+        call imprima_Resultado  ;llama a la operacion para que muestre el resultado al usuario 
         
 obtenga_operandos_OR ENDP 
 
-obtenga_operandos_NOT PROC 
-
+obtenga_operandos_NOT PROC ;Este proceso se utiliza para obtener los operandos necesarios para realizar la operacion NOT
+                            ;Luego se llama al proceso imprima_resultado para que muestre al usuario el resultado de la operacion.
     mov ax, @data 
     mov ds, ax 
     mov ax, 0B800h 
@@ -401,7 +414,7 @@ obtenga_operandos_NOT PROC
     mov di, 1120 ;mueve el texto en la ventana, lo cambia de posicion 
     cld 
     
-    imprimaPet1NOT: 
+    imprimaPet1NOT: ;Imprime el mensaje que solicita al usuario ingresar el primer numero
         lodsb 
         stosw 
         loop imprimaPet1NOT 
@@ -416,34 +429,34 @@ obtenga_operandos_NOT PROC
         mov cx, 1000 
         mov di, offset peticionHex1
         
-        call obtenga_caracter
-        sub al, 30h 
-        mov hexa1, al  
+        call obtenga_caracter       ;llama a obtenga_caracter para que lea el codigo ascii de la tecla presionada por el usuario
+        sub al, 30h                 ;se le resta 30 para que quede el caracter de un numero 
+        mov hexa1, al               ;se almacena en hexa1
          
         
-        mov al, hexa1 
-        NOT al 
+        mov al, hexa1               ;ejecuta la operacion NOT y almacena el resultado en resultado_operacion, s ele resta 48 para que pueda imprimir
+        NOT al                      ;el resultado mostrando el caracter de un numero
         mov resultado_operacion, al
-        ADD resultado_operacion, 48 ;Para que imprima el caracter ASCII correcto 
+        ADD resultado_operacion, 48 
         
-        call imprima_Resultado
+        call imprima_Resultado  ;llama al proceso que imprime el resultado al usuario 
         
 obtenga_operandos_NOT ENDP 
 
-obtenga_operandos_XOR PROC 
-
+obtenga_operandos_XOR PROC ;Este proceso se utiliza para obtener los operandos necesarios para realizar la operacion XOR
+                            ;Luego se llama al proceso imprima_resultado para que muestre al usuario el resultado de la operacion.
     mov ax, @data 
     mov ds, ax 
     mov ax, 0B800h 
     mov es, ax 
 
     mov ah, 07 
-    mov cx, 38 ;cantidad de caracteres del texto 
+    mov cx, 38                  ;cantidad de caracteres del texto 
     mov si, offset peticionHex1 
-    mov di, 1120 ;mueve el texto en la ventana, lo cambia de posicion 
+    mov di, 1120                    ;mueve el texto en la ventana, lo cambia de posicion 
     cld 
     
-    imprimaPet1XOR: 
+    imprimaPet1XOR: ;Imprime el mensaje que solicita al usuario ingresar el primer numero
         lodsb 
         stosw 
         loop imprimaPet1XOR
@@ -458,9 +471,9 @@ obtenga_operandos_XOR PROC
         mov cx, 1000 
         mov di, offset peticionHex1
         
-        call obtenga_caracter
-        sub al, 30h 
-        mov hexa1, al  
+        call obtenga_caracter       ;llama a obtenga_caracter para que lea el codigo ascii de la tecla presionada por el usuario
+        sub al, 30h                 ;se le resta 30 para que quede el caracter de un numero 
+        mov hexa1, al               ;se almacena en hexa1
         
     mov ax, @data 
     mov ds, ax 
@@ -473,7 +486,7 @@ obtenga_operandos_XOR PROC
     mov di, 1280 ;mueve el texto en la ventana, lo cambia de posicion 
     cld
     
-    imprimaPet2XOR: 
+    imprimaPet2XOR: ;Imprime el mensaje que solicita al usuario ingresar el segundo numero
         lodsb 
         stosw 
         loop imprimaPet2XOR 
@@ -488,21 +501,21 @@ obtenga_operandos_XOR PROC
         mov cx, 1000 
         mov di, offset peticionHex2
         
-        call obtenga_caracter
-        sub al, 30h 
-        mov hexa2, al 
+        call obtenga_caracter       ;llama a obtenga_caracter para que lea el codigo ascii de la tecla presionada por el usuario
+        sub al, 30h                 ;se le resta 30 para que quede el caracter de un numero 
+        mov hexa2, al               ;se almacena en hexa2
         
-        mov al, hexa1 
-        XOR al, hexa2 
+        mov al, hexa1               ;ejecuta la operacion XOR y almacena el resultado en resultado_operacion, se le suma 48 para que muestre un caracter de numero
+        XOR al, hexa2               
         mov resultado_operacion, al
-        ADD resultado_operacion, 48 ;Para que imprima el caracter ASCII correcto 
+        ADD resultado_operacion, 48 
         
         call imprima_Resultado
         
 obtenga_operandos_XOR ENDP
   
-imprima_Resultado PROC 
-    
+imprima_Resultado PROC      ;Este proceso se utiliza para imprimir el resultado
+                            ;de cada operacion y que este sea visible para el usuario
         
     mov ax, @data 
     mov ds, ax 
@@ -568,7 +581,7 @@ imprima_Resultado PROC
             mov di, 2600 ;mueve el texto en la ventana, lo cambia de posicion 
             cld  
     
-        volver_al_menu: 
+        volver_al_menu: ;Este mensaje se imprime para que el usuario sepa que debe oprimir cualquier tecla para volver al menu, luego de imprimir el resultado
     
         lodsb 
         stosw 
@@ -645,10 +658,10 @@ Begin:
         
       interfaz_AND: 
         
-        call imprima_eleccion_AND 
+        call imprima_eleccion_AND ;llama a imprima eleccion, en donde se llama al resto de procesos para el funcionamiento del programa
 
-        jmp Begin
-      
+        jmp Begin   ;luego de ejecutar todos los procesos salta a begin, para que vuelva a iniciar el programa, asi entra en un bucle
+                    ;hasta que el usuario decida salir
       interfaz_OR:
       
         call imprima_eleccion_OR 
